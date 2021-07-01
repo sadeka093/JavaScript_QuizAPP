@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz App</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+
+</head>
+<body>
+	<div class="quiz-container" id="quiz">
+		<div class="quiz-header">
+			<h2 id="question">Question Text</h2>
+			<ul>
+				<li>
+					<input type="radio" id="a" name="answer" class="answer">
+					<label id="a_text" for="a">Question</label>
+				</li>
+				<li>
+					<input type="radio" id="b" name="answer" class="answer">
+					<label id="b_text" for="b">Question</label>
+				</li>
+				<li>
+					<input type="radio" id="c" name="answer" class="answer">
+					<label id="c_text" for="c">Question</label>
+				</li>
+				<li>
+					<input type="radio" id="d" name="answer" class="answer">
+					<label id="d_text" for="d">Question</label>
+				</li>
+			</ul>
+		</div>
+		<button id="submit">Submit</button>	
+	</div>
+	<script type="text/javascript">
+		const quizData=[
+		{
+			question: 'How old is Florin?',
+			a:'10',
+			b: '17',
+			c: '26',
+			d: '110',
+			correct: 'c',
+		},
+		{
+			question: 'What is the most used programming language in 2019?',
+			a: 'Jave',
+			b: 'C',
+			c: 'Python',
+			d: 'JavaScript',
+			correct: 'd',
+		},
+		{
+			question: 'Who is the President of USA?',
+			a: 'Florin Pop',
+			b: 'Donald Trump',
+			c: 'Ivan Saldano',
+			d: 'Mihai Andrei',
+			correct: 'b',
+		},
+		{
+			question: 'What does HTML stand for?',
+			a: 'Hypertext Markup Language',
+			b: 'Cascadeing Style Sheet',
+			c: 'Jason Object Notation',
+			d: 'Helicopters Terminals Motorboats Lamborginis ',
+			correct: 'a',
+		},
+		{
+			question: 'What year was JavaScript lanched?',
+			a:'2020',
+			b: '2019',
+			c: '2018',
+			d: 'none of the above',
+			correct: 'b',
+		},
+		];
+
+		const answerEls=document.querySelectorAll(".answer");
+
+		const questionEl=document.getElementById('question');
+		const a_text =document.getElementById('a_text');
+		const b_text =document.getElementById('b_text');
+		const c_text =document.getElementById('c_text');
+		const d_text =document.getElementById('d_text');
+		const submitBtn =document.getElementById('submit');
+
+		let currentQuestion=0;
+		let score =0;
+
+		loadQuiz();
+
+		function loadQuiz()
+		{
+			answerDeSelected();
+			const currentQuizData=quizData[currentQuestion];
+
+			questionEl.innerText=currentQuizData.question;
+
+			a_text.innerText=currentQuizData.a;
+			b_text.innerText=currentQuizData.b;
+			c_text.innerText=currentQuizData.c;
+			d_text.innerText=currentQuizData.d;
+
+
+
+		}
+		function answerSelected()
+		{
+			let answer = undefined;
+			answerEls.forEach((answerEl)=>{
+				if(answerEl.checked){
+					answer= answerEl.id;
+				}
+
+
+			});
+
+			return answer;
+		}
+		function answerDeSelected()
+		{
+			answerEls.forEach((answerEl)=>{
+				answerEl.checked=false;
+			});
+		}
+
+		submitBtn.addEventListener("click",()=>{
+
+			const answer=answerSelected();
+			if(answer)
+			{
+				if(answer===quizData[currentQuestion].correct){
+					score++;
+				}
+				currentQuestion++;
+
+				if(currentQuestion < quizData.length)
+				{
+
+					loadQuiz();
+				} else{
+					quiz.innerHTML=`
+					<h2>Your Score= ${score}/${quizData.length} </h2>
+                    <button onclick="location.reload()">Reload</button>
+					`;
+				}
+			}
+			
+
+
+		});
+
+	</script>
+</body>
+</html>
